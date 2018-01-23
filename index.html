@@ -156,6 +156,71 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-sceond" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/23/sceond/">SQL Server数据库和.NET操作（ADO.NET）</a>
+    </h1>
+  
+
+        
+        <a href="/2018/01/23/sceond/" class="archive-article-date">
+  	<time datetime="2018-01-23T15:41:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>ADO.NET/SQL Server编程<br>ADO.NET对象模型的两个主要成员(组件)是：.NET数据提供程序和DataSet对象。<br>.NET数据提供程序：数据库的访问接口，负责建立连接和数据操作，负责将数据源的数据取出后置入DataSet（临时仓库）对象中，或将数据存回数据源。包含了Connection（公路）（创建数据源的连接）、Command（货车）（对数据源执行SQL命令并返回SqlDataReader类型结果）、DataReader（货物）（读取数据源的数据）和DataAdapter（货车）（对数据源执行SQL命令并返回DataSet类型结果）。<br>数据库是仓库</p>
+<p>DataSet对象：ADO.NET的核心，可认为是位于内存的数据库。包含了一个或多个数据表DataTable。DataSet提供方法对数据集中表进行浏览、编辑、排序、过滤或建立视图。</p>
+<p>①在ASP.NET中访问数据库需要在开始出引用using引入相应的命名空间。Using System.Data.SqlClient;可将ADO.NET命名空间下的类分为以下两组（1）SQL数据库常用的类：SqlConnection（建立数据库连接）、SqlCommand（执行SQL命令并返回SqlDataReader类型结果）、SqlDataAdapter（执行SQL命令并返回DataSet类型结果）、SqlDataReader（以只读方式读取数据源的数据，一次只能读取一条记录）（2）数据集及相关类：DataSet、DataTable、DataRelation、DataView。<br>②首先建立与数据库的连接；Connection对象的常用属性：<br>ConnectionString（用于获取或设置与数据库的连接字符串）：主要有Data Source（要连接的SQL实例的名称或网络地址）、Initial Catalog（连接的数据库的名称）、Integrated Security（SQL登录方式，是否验证True、False）、User ID（登录SQL账号）、Password（登录密码）等参数。<br>Database、DataSource、State等。<br>常用方法：Open（）、Close（）ChangeDatabase（）（在打开连接的情况下，更改当前数据库）。<br>③成功连接数据库后，通过Command对象或DataAdapter对象执行SQL命令，在通过返回的各种结果对象来访问数据库。<br>Command对象（返回一条记录）：<br>常用属性：<br>CommandText：获取或设置要对数据源执行的SQL命令、存储过程或数据表名。<br>CommandType：获取或设置命令类别，可取的值有：StoredProcedure（存储过程）、TableDirect（数据表名）、Text（SQL语句），默认为Text。数字、属性的值为CommandType.StoredProcedure、CommandType.Text。<br>Parameters：SQL命令参数集合。<br>Connection：获取或设置Command对象所使用的数据连接属性。<br>CommandTimeout：获取或设置Command对象的超时时间，单位为秒，为0表示不受限制。默认为30秒，即如果在这个时间内Command无法执行SQL命令，则返回失败。<br>常用方法：<br>Cancel（）：取消Command对象的操作<br>CreateParameter：创建Parameter对象<br>ExecuteNonQuery（）：执行CommandText属性指定的内容，返回数据表被影响行数，该方法用于执行对数据库的更新操作。<br>ExecuteReader（）：执行CommandText属性指定的内容，返回DataReader对象<br>ExecuteScalar（）：执行CommandText属性指定的内容，返回结果表第一行第一列的值，该方法只能执行Select命令。<br>ExecuteXmlReader（）：执行CommandText属性指定的内容，返回XmlReader对象，只有SQL才能使用此方法。<br>DataAdapter对象（返回DataSet类型结果）：<br>用来传递各种SQL命令，并将执行结果填入DataSet对象，并且DataAdapter对象还可将数据集（DataSet）对象更改过的数据写回数据源。它是数据库与DataSet对象之间沟通的桥梁。<br>常用属性：<br>UpdateCommand：获取或设置更新数据源中的数据行的SQL命令，该值为Command对象。<br>SelectCommand：获取或设置查询数据源的SQL命令，该值为Command对象。<br>InsertCommand:获取或设置向数据源中插入数据行的SQL命令，该值为Command对象。<br>DeleteCommand：获取或设置删除数据源中的数据行的SQL命令，该值为Command对象。<br>ContinueUpdateCommand：获取或设置当执行Update（）方法更新数据源发生错误时是否继续。<br>常用方法：<br>Fill（dataSet，SrcTable）:新增或更新DataSet中的记录。<br>Update（dataSet，SrcTable）：当新增、修改或删除DataSet中的记录，并需要更改数据源是，使用该方法。该方法的返回值为影响的行数。SrcTable参数为数据表对应的来源数据表名。<br>注意：Command和DataAdapter都可更新数据库。<br>使用DataReader对象访问数据库<br>ADO.NET有两种访问数据库的方式：DataReader对象和DataSet对象。DataReader只能读取数据不能写入数据，并且只能顺序读取数据。<br>常用方法：Read（从数据源读取一条记录，返回值为Bool）、GetName、GetValue、GetValues。<br>使用DataSet对象访问数据库<br>DataSet对象包括3个集合：DataTableCollection（数据表的集合，包括多个DataTable对象）、DataRowCollection（行集合，包含多个DataRow对象）和DataColumnCollection（列集合，包含多个DataColumn对象）。<br>常用属性：Tables：DS.Tables(“students”).Rows(i).Item(j)表示访问students表的第i行第j列<br>常用方法；<br>Clear（）；清楚DataSet对象的数据，删除所有的DataTable对象。<br>Copy（）：复制DataSet对象的结构和数据，返回值是与本DataSet对象具有同样结构和数据的DataSet对象。<br>数据库查询操作：<br>DataView对象及应用<br>可看做是DataTable对象的自己，他们的关系类似于数据库系统中的视图与表的关系。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/01/23/sceond/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-first" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -176,7 +241,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <p>都是自己亲自试过的链接，都是一些常用的软件，每次卸载完之后想要重新安装又得重新搜一遍觉得很麻烦，从今天开始会把每次下载完的链接保存到博客中，会省去很多功夫</p>
+
       
 
       
@@ -184,6 +250,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">下载资源</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -380,6 +457,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">下载资源</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
